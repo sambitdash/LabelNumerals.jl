@@ -6,6 +6,8 @@ end
 AlphaNumeral(str::AbstractString) = parse(AlphaNumeral, str)
 AlphaNumeral(n::Int) = fromInt(AlphaNumeral, n)
 
+Base.hash(num::AlphaNumeral) = xor(hash(num.str), hash(num.val))
+
 Base.typemax(AlphaNumeral) = 156 # ZZZZZZ
 Base.typemin(AlphaNumeral) = 1
 
