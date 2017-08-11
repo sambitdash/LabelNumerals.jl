@@ -63,7 +63,8 @@ end
     @test LabelNumeral(AlphaNumeral, 46) == LabelNumeral(AlphaNumeral, "TT")
     @test LabelNumeral(AlphaNumeral, 156) == LabelNumeral(AlphaNumeral, "ZZZZZZ")
     @test LabelNumeral(AlphaNumeral, 1) == LabelNumeral(AlphaNumeral, "A")
-    @test hash(LabelNumeral(AlphaNumeral, "BBB")) == 0x74df751371ae5632
+    @test hash(LabelNumeral(AlphaNumeral, "BBB")) ==
+        hash(LabelNumeral(AlphaNumeral, "CCC") - LabelNumeral(AlphaNumeral,"A"))
 
     println(LabelNumeral(AlphaNumeral, "BBB"))
 
