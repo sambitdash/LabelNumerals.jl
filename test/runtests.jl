@@ -123,7 +123,7 @@ A2N = Dict(
 )
 
 @testset "LookupNumeral test" begin
-    registerLookupNumerals(A2N)
+    registerLookupNumerals(A2N, 1, 20)
     # Constructor tests
     @test LabelNumeral(LookupNumeral, 10) == LabelNumeral(LookupNumeral, "Ten")
     @test LabelNumeral(LookupNumeral, 11) == LabelNumeral(LookupNumeral, "Eleven")

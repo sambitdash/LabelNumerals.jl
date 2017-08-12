@@ -42,15 +42,19 @@ end
 
 LOOKUP_N2A = reverse_lookup(LOOKUP_A2N)
 
+LOOKUP_TYPEMAX = 20
+LOOKUP_TYPEMIN = 1
 
-function registerLookupNumerals(d::Dict{String,Int})
-    global LOOKUP_A2N, LOOKUP_N2A
+function registerLookupNumerals(d::Dict{String,Int}, minval, maxval)
+    global LOOKUP_A2N, LOOKUP_N2A, LOOKUP_TYPEMAX, LOOKUP_TYPEMIN
     LOOKUP_A2N = d
     LOOKUP_N2A = reverse_lookup(LOOKUP_A2N)
+    LOOKUP_TYPEMIN = minval
+    LOOKUP_TYPEMAX = maxval
 end
 
-Base.typemax(::Type{LookupNumeral}) = 20
-Base.typemin(::Type{LookupNumeral}) = 1
+Base.typemax(::Type{LookupNumeral}) = LOOKUP_TYPEMAX
+Base.typemin(::Type{LookupNumeral}) = LOOKUP_TYPEMIN
 
 macro ln_str(str)
     LookupNumeral(str)
