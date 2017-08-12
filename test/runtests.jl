@@ -58,6 +58,7 @@ end
     @test string(LabelNumeral(10; prefix="A-",caselower=true)) == "A-10"
 end
 
+
 @testset "AlphaNumeral test" begin
     # Constructor tests
     @test LabelNumeral(AlphaNumeral, 46) == LabelNumeral(AlphaNumeral, "TT")
@@ -96,4 +97,71 @@ end
             LabelNumeral(an"A")
     end
     @test string(LabelNumeral(an"J"; prefix="A-",caselower=true)) == "A-j"
+end
+
+A2N = Dict(
+    "One" => 1,
+    "Two" => 2,
+    "Three" => 3,
+    "Four" => 4,
+    "Five" => 5,
+    "Six" => 6,
+    "Seven" => 7,
+    "Eight" => 8,
+    "Nine" => 9,
+    "Ten" => 10,
+    "Eleven"=> 11,
+    #"Twelve" => 12,
+    "Thirteen" => 13,
+    "Fourteen" => 14,
+    "Fifteen" => 15,
+    "Sixteen" => 16,
+    "Seventeen" => 17,
+    "Eighteen" => 18,
+    "Nineteen" => 19,
+    "Twenty" => 20
+)
+
+@testset "LookupNumeral test" begin
+    registerLookupNumerals(A2N)
+    # Constructor tests
+    @test LabelNumeral(LookupNumeral, 10) == LabelNumeral(LookupNumeral, "Ten")
+    @test LabelNumeral(LookupNumeral, 11) == LabelNumeral(LookupNumeral, "Eleven")
+    @test LabelNumeral(LookupNumeral, 1) == LabelNumeral(LookupNumeral, "One")
+    @test hash(LabelNumeral(LookupNumeral, "Ten")) ==
+        hash(LabelNumeral(LookupNumeral, "Eleven") - LabelNumeral(LookupNumeral,"One"))
+
+    println(LabelNumeral(LookupNumeral, "Ten"))
+
+    @test convert(Bool, LabelNumeral(LookupNumeral,10)) == true
+    @test convert(BigInt, LabelNumeral(LookupNumeral,11)) == BigInt(11)
+    @test convert(Int, LabelNumeral(LookupNumeral,10)) == 10
+    @test convert(LabelNumeral{LookupNumeral}, 10) == LabelNumeral(LookupNumeral, 10)
+    @test LabelNumeral(LookupNumeral, 9) + 10 == 19
+
+    @test_throws DomainError LabelNumeral(LookupNumeral, "ABC")
+    @test_throws DomainError LabelNumeral(LookupNumeral, "157")
+    @test_throws DomainError LabelNumeral(LookupNumeral, "0")
+    @test_throws DomainError LabelNumeral(LookupNumeral, 157)
+    @test_throws DomainError LabelNumeral(LookupNumeral, 0)
+    @test_throws DomainError begin
+        LabelNumeral(ln"Ten") + LabelNumeral(ln"Two")
+    end
+
+    # arithmetic tests
+    @test LabelNumeral(ln"One") + LabelNumeral(ln"Two") == LabelNumeral(ln"Three")
+    @test LabelNumeral(ln"Three") - LabelNumeral(ln"Two") == LabelNumeral(ln"One")
+    @test LabelNumeral(ln"Four") > LabelNumeral(ln"One")
+    @test LabelNumeral(ln"Ten") <= LabelNumeral(ln"Eleven")
+    @test LabelNumeral(ln"Ten") < LabelNumeral(ln"Eleven")
+    @test isless(LabelNumeral(ln"Ten"), LabelNumeral(ln"Eleven"))
+    @test begin
+        max(LabelNumeral(ln"One"), LabelNumeral(ln"Five"), LabelNumeral(ln"Ten")) ==
+            LabelNumeral(ln"Ten")
+    end
+    @test begin
+        min(LabelNumeral(ln"Ten"), LabelNumeral(ln"Five"), LabelNumeral(ln"One")) ==
+            LabelNumeral(ln"One")
+    end
+    @test string(LabelNumeral(ln"Ten"; prefix="A-",caselower=true)) == "A-ten"
 end

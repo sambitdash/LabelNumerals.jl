@@ -6,9 +6,10 @@ import Base: ==, isless, <, >, <=, +, -, max, min,
 include("LabelNumeral.jl")
 include("AlphaNumeral.jl")
 include("ExtNumerals.jl")
+include("LookupNumeral.jl")
 
 
 export LabelNumeral,
-       @an_str, AlphaNumeral
-
+       @an_str, AlphaNumeral,
+       @ln_str, LookupNumeral, registerLookupNumerals
 end # module

@@ -3,13 +3,13 @@ struct AlphaNumeral <: Integer
     str::String
 end
 
-AlphaNumeral(str::AbstractString) = parse(AlphaNumeral, str)
+AlphaNumeral(str::String) = parse(AlphaNumeral, str)
 AlphaNumeral(n::Int) = fromInt(AlphaNumeral, n)
 
 Base.hash(num::AlphaNumeral) = xor(hash(num.str), hash(num.val))
 
-Base.typemax(AlphaNumeral) = 156 # ZZZZZZ
-Base.typemin(AlphaNumeral) = 1
+Base.typemax(::Type{AlphaNumeral}) = 156 # ZZZZZZ
+Base.typemin(::Type{AlphaNumeral}) = 1
 
 macro an_str(str)
     AlphaNumeral(str)
