@@ -20,7 +20,8 @@ Numeric quantities are used sometimes for pure representational purposes without
 
   1. LetterNumeral - A, B, ..., Z, AA, BB, ..., ZZ, AAA... (group of 26 characters each)
   2. ArabicNumeral - 1, 2, 3, ...
-  3. LookupNumeral - Mapped strings to integers like English words "One", "Two" etc. 
+  3. LookupNumeral - Mapped strings to integers like English words "One", "Two" etc.
+  4. AlphaNumNumeral - Alphabets representing numbers like BA, BB, BC etc. 
 
  It also supports `RomanNumeral` from
  [`RomanNumerals`](https://github.com/anthonyclays/RomanNumerals.jl) package.

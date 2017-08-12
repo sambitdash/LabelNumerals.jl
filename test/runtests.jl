@@ -165,3 +165,41 @@ A2N = Dict(
     end
     @test string(LabelNumeral(ln"Ten"; prefix="A-",caselower=true)) == "A-ten"
 end
+
+@testset "AlphaNumNumeral test" begin
+    # Constructor tests
+    @test LabelNumeral(AlphaNumNumeral, 46) == LabelNumeral(AlphaNumNumeral, "BU")
+    @test LabelNumeral(AlphaNumNumeral, 156) == LabelNumeral(AlphaNumNumeral, "GA")
+    @test LabelNumeral(AlphaNumNumeral, 1) == LabelNumeral(AlphaNumNumeral, "B")
+    @test hash(LabelNumeral(AlphaNumNumeral, "BBB")) ==
+        hash(LabelNumeral(AlphaNumNumeral, "BBB") - LabelNumeral(AlphaNumNumeral,"A"))
+
+    println(LabelNumeral(AlphaNumNumeral, "BBB"))
+
+    @test convert(Bool, LabelNumeral(AlphaNumNumeral,100)) == true
+    @test convert(BigInt, LabelNumeral(AlphaNumNumeral,100)) == BigInt(100)
+    @test convert(Int, LabelNumeral(AlphaNumNumeral,100)) == 100
+    @test convert(LabelNumeral{AlphaNumNumeral}, 100) == LabelNumeral(AlphaNumNumeral, 100)
+    @test LabelNumeral(AlphaNumNumeral, 100) + 10 == 110
+
+    @test_throws DomainError LabelNumeral(AlphaNumNumeral, "A23BC")
+    @test_throws DomainError LabelNumeral(AlphaNumNumeral, "157")
+    @test_throws DomainError LabelNumeral(AlphaNumNumeral, "0")
+
+    # arithmetic tests
+    @test LabelNumeral(ann"II") + LabelNumeral(ann"A") == LabelNumeral(ann"II")
+    @test LabelNumeral(ann"JJ") - LabelNumeral(ann"B") == LabelNumeral(ann"JI")
+    @test LabelNumeral(ann"JJ") > LabelNumeral(ann"II")
+    @test LabelNumeral(ann"Z") <= LabelNumeral(ann"BB")
+    @test LabelNumeral(ann"Z") < LabelNumeral(ann"BB")
+    @test isless(LabelNumeral(ann"Z"), LabelNumeral(ann"BB"))
+    @test begin
+        max(LabelNumeral(ann"I"), LabelNumeral(ann"Z"), LabelNumeral(ann"A")) ==
+            LabelNumeral(ann"Z")
+    end
+    @test begin
+        min(LabelNumeral(ann"I"), LabelNumeral(ann"Z"), LabelNumeral(ann"A")) ==
+            LabelNumeral(ann"A")
+    end
+    @test string(LabelNumeral(ann"J"; prefix="A-",caselower=true)) == "A-j"
+end
