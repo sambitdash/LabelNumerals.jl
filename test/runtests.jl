@@ -203,3 +203,9 @@ end
     end
     @test string(LabelNumeral(ann"J"; prefix="A-",caselower=true)) == "A-j"
 end
+
+@testset "Search Label" begin
+    @test length(findLabels("XXX"; pfxList=["X",""])) == 6
+    @test length(findLabels("X-XX"; pfxList=["X-",""])) == 3
+    @test length(findLabels("A10"; pfxList=["A",""])) == 1
+end
