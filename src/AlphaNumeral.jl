@@ -35,7 +35,7 @@ function Base.parse(::Type{AlphaNumeral}, str::String)
     end
 end
 
-function convert(::Type{AlphaNumeral}, val::Int)
+function Base.convert(::Type{AlphaNumeral}, val::Int)
     if typemin(AlphaNumeral) <= val <= typemax(AlphaNumeral)
         n = div(val, 26)
         r = rem(val, 26)

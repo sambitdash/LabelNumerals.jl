@@ -30,7 +30,7 @@ function Base.parse(::Type{AlphaNumNumeral}, str::String)
     return AlphaNumNumeral(val, str)
 end
 
-function convert(::Type{AlphaNumNumeral}, val::Int)
+function Base.convert(::Type{AlphaNumNumeral}, val::Int)
     carr = Vector{Char}()
     tval = val
     while (tval > 0)

@@ -70,7 +70,7 @@ function Base.parse(::Type{LookupNumeral}, str::String)
     end
 end
 
-function convert(::Type{LookupNumeral}, val::Int)
+function Base.convert(::Type{LookupNumeral}, val::Int)
     if !haskey(LOOKUP_N2A, val)
         throw(DomainError())
     else
