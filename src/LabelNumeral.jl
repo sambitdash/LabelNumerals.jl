@@ -16,13 +16,11 @@ LabelNumeral{T <: Integer}(t::Type{T}, str::String; prefix="", caselower=false) 
 LabelNumeral(str::String; prefix="", caselower=false) =
     LabelNumeral(parse(Int, str), prefix, caselower)
 
-getval(num::LabelNumeral)=getval(num.val)
-
 # Standard functions
 # Conversion + promotion
 Base.convert(::Type{Bool}, num::LabelNumeral) = true
-Base.convert(::Type{BigInt}, num::LabelNumeral) = BigInt(getval(num))
-Base.convert{T <: Integer}(::Type{T}, num::LabelNumeral) = convert(T, getval(num))
+Base.convert(::Type{BigInt}, num::LabelNumeral) = BigInt(Int(num))
+Base.convert{T <: Integer}(::Type{T}, num::LabelNumeral) = convert(T, num.val)
 Base.convert{T <: Integer}(::Type{LabelNumeral{T}}, num::Int) = LabelNumeral(T, num)
 Base.promote_rule{T <: Integer, S <: Integer}(::Type{LabelNumeral{S}}, ::Type{T}) = T
 
@@ -44,17 +42,18 @@ import Base: ==, isless, <=, <, >,
     +, -, max, min
 
 # Equality operators
-==(n1::LabelNumeral, n2::LabelNumeral) = getval(n1) == getval(n2)
+==(n1::LabelNumeral, n2::LabelNumeral) = Int(n1) == Int(n2)
 
 # Comparisons
-isless(n1::LabelNumeral, n2::LabelNumeral) = getval(n1) < getval(n2)
-<(n1::LabelNumeral, n2::LabelNumeral) = getval(n1) < getval(n2)
->(n1::LabelNumeral, n2::LabelNumeral) = getval(n1) > getval(n2)
-<=(n1::LabelNumeral, n2::LabelNumeral) = getval(n1) <= getval(n2)
+isless(n1::LabelNumeral, n2::LabelNumeral) = Int(n1) < Int(n2)
+<(n1::LabelNumeral, n2::LabelNumeral) = Int(n1) < Int(n2)
+>(n1::LabelNumeral, n2::LabelNumeral) = Int(n1) > Int(n2)
+<=(n1::LabelNumeral, n2::LabelNumeral) = Int(n1) <= Int(n2)
 
 ## Arithmetic
 # Multiple argument operators
 for op in [:+, :-,:max, :min]
-    @eval ($op){T <: Integer}(ns::LabelNumeral{T}...) =
-        $(op)(map(n -> getval(n), ns)...) |> LabelNumeral{T}
+    @eval ($op){T <: Integer}(n1::LabelNumeral{T}, n2::LabelNumeral{T},
+        ns::LabelNumeral{T}...) =
+        $(op)(Int(n1), Int(n2), map(Int, ns)...) |> LabelNumeral{T}
 end

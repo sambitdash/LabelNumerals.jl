@@ -4,7 +4,7 @@ struct AlphaNumeral <: Integer
 end
 
 AlphaNumeral(str::String) = parse(AlphaNumeral, str)
-AlphaNumeral(n::Int) = fromInt(AlphaNumeral, n)
+AlphaNumeral(n::Int) = convert(AlphaNumeral, n)
 
 Base.hash(num::AlphaNumeral) = xor(hash(num.str), hash(num.val))
 
@@ -15,7 +15,7 @@ macro an_str(str)
     AlphaNumeral(str)
 end
 
-getval(num::AlphaNumeral) = num.val
+Base.convert{T <: Integer}(::Type{T}, num::AlphaNumeral) = convert(T, num.val)
 
 function Base.parse(::Type{AlphaNumeral}, str::String)
     s = uppercase(str)
@@ -35,7 +35,7 @@ function Base.parse(::Type{AlphaNumeral}, str::String)
     end
 end
 
-function fromInt(::Type{AlphaNumeral}, val::Int)
+function convert(::Type{AlphaNumeral}, val::Int)
     if typemin(AlphaNumeral) <= val <= typemax(AlphaNumeral)
         n = div(val, 26)
         r = rem(val, 26)

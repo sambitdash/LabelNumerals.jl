@@ -4,7 +4,7 @@ struct LookupNumeral <: Integer
 end
 
 LookupNumeral(str::String) = parse(LookupNumeral, str)
-LookupNumeral(n::Int) = fromInt(LookupNumeral, n)
+LookupNumeral(n::Int) = convert(LookupNumeral, n)
 
 Base.hash(num::LookupNumeral) = xor(hash(num.str), hash(num.val))
 
@@ -60,7 +60,7 @@ macro ln_str(str)
     LookupNumeral(str)
 end
 
-getval(num::LookupNumeral) = num.val
+Base.convert{T <: Integer}(::Type{T}, num::LookupNumeral) = convert(T, num.val)
 
 function Base.parse(::Type{LookupNumeral}, str::String)
     if !haskey(LOOKUP_A2N, str)
@@ -70,7 +70,7 @@ function Base.parse(::Type{LookupNumeral}, str::String)
     end
 end
 
-function fromInt(::Type{LookupNumeral}, val::Int)
+function convert(::Type{LookupNumeral}, val::Int)
     if !haskey(LOOKUP_N2A, val)
         throw(DomainError())
     else

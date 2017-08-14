@@ -6,7 +6,7 @@ struct AlphaNumNumeral <: Integer
 end
 
 AlphaNumNumeral(str::String) = parse(AlphaNumNumeral, str)
-AlphaNumNumeral(n::Int) = fromInt(AlphaNumNumeral, n)
+AlphaNumNumeral(n::Int) = convert(AlphaNumNumeral, n)
 
 Base.hash(num::AlphaNumNumeral) = xor(hash(num.str), hash(num.val))
 
@@ -14,7 +14,7 @@ macro ann_str(str)
     AlphaNumNumeral(str)
 end
 
-getval(num::AlphaNumNumeral) = num.val
+Base.convert{T <: Integer}(::Type{T}, num::AlphaNumNumeral) = convert(T, num.val)
 
 function Base.parse(::Type{AlphaNumNumeral}, str::String)
     s = uppercase(str)
@@ -30,7 +30,7 @@ function Base.parse(::Type{AlphaNumNumeral}, str::String)
     return AlphaNumNumeral(val, str)
 end
 
-function fromInt(::Type{AlphaNumNumeral}, val::Int)
+function convert(::Type{AlphaNumNumeral}, val::Int)
     carr = Vector{Char}()
     tval = val
     while (tval > 0)
