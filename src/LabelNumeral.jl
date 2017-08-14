@@ -55,6 +55,6 @@ isless(n1::LabelNumeral, n2::LabelNumeral) = getval(n1) < getval(n2)
 ## Arithmetic
 # Multiple argument operators
 for op in [:+, :-,:max, :min]
-    @eval ($op){T <: Integer}(ns::LabelNumeral{T}...) =
-        $(op)(map(n -> getval(n), ns)...) |> LabelNumeral{T}
+    @eval ($op){T <: Integer}(n1::LabelNumeral{T}, ns::LabelNumeral{T}...) =
+        $(op)(map(getval, n1, ns)...) |> LabelNumeral{T}
 end
