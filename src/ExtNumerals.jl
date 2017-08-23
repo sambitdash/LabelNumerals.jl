@@ -1,8 +1,6 @@
 # Regex to validate a Roman numeral
 using RomanNumerals
 
-Base.parse(::Type{RomanNumeral}, str::String) = RomanNumeral(str)
-
 Base.string(num::LabelNumeral{Int}) = begin
     sval = num.val |> Base.string
     if num.caselower
