@@ -1,8 +1,22 @@
+"""
+```
+    LookupNumeral
+```
+Numbers represented as from a lookup table. No digits or additional system of extension
+possible. Only numbers available in the lookup table are valid.
+"""
 struct LookupNumeral <: Integer
     val::Int
     str::String
 end
 
+"""
+```
+    LookupNumeral(str::String)
+    LookupNumeral(n::Int)
+```
+Constructors for `LookupNumeral`.
+"""
 LookupNumeral(str::String) = parse(LookupNumeral, str)
 LookupNumeral(n::Int) = convert(LookupNumeral, n)
 
@@ -45,6 +59,14 @@ LOOKUP_N2A = reverse_lookup(LOOKUP_A2N)
 LOOKUP_TYPEMAX = 20
 LOOKUP_TYPEMIN = 1
 
+"""
+```
+    registerLookupNumerals(str)
+```
+`LookupNumeral` can be set up by providing a mapping as a `Dict{String, Int}`.
+The `minval` and `maxval` provide the limits of the domains in this number system.
+"""
+
 function registerLookupNumerals(d::Dict{String,Int}, minval, maxval)
     global LOOKUP_A2N, LOOKUP_N2A, LOOKUP_TYPEMAX, LOOKUP_TYPEMIN
     LOOKUP_A2N = d
@@ -56,6 +78,19 @@ end
 Base.typemax(::Type{LookupNumeral}) = LOOKUP_TYPEMAX
 Base.typemin(::Type{LookupNumeral}) = LOOKUP_TYPEMIN
 
+"""
+```
+    @ln_str(str)
+```
+String decorator for `LookupNumeral` definitions.
+
+#Example
+
+```
+julia> ln"Three"
+LabelNumerals.LookupNumeral(3, "Three")
+```
+"""
 macro ln_str(str)
     LookupNumeral(str)
 end

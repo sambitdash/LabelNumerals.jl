@@ -1,18 +1,68 @@
+# Base 26 number where alphabets are numbers.
+
+"""
+```
+    LabelNumeral{T<:Integer}
+```
+Wrapper around an `Integer` type that provides the following caabilities:
+
+1. Prefix - like A-1, A-2 etc...
+2. Lower case or upper case conversions
+3. show and print options.
+4. Mathematical operators like `+, -, <=, ==, >, isless, max and min`
+
+The wrapped `struct` should implement the following methods:
+```
+1. T(::String)
+2. T(::Int)
+3. Base.hash(::T)
+4. Base.convert{S <: Integer}(::Type{S}, num::T)  <-- to covert to standard numeral types
+```
+"""
 mutable struct LabelNumeral{T<:Integer} <: Integer
     val::T
     prefix::String
     caselower::Bool
 end
 
+"""
+```
+    LabelNumeral{T <: Integer}(::T; prefix="", caselower=false)
+    LabelNumeral{T <: Integer}(::Type{T}, i::Integer; prefix="", caselower=false)
+    LabelNumeral{T <: Integer}(::Type{T}, s::String; prefix="", caselower=false)
+```
+Example:
+```
+julia> using RomanNumerals
+
+julia> a = LabelNumeral(rn"XXIV"; prefix="A-", caselower=true)
+A-xxiv
+
+julia> a = LabelNumeral(rn"XXIV"; prefix="A-")
+A-XXIV
+```
+Constructors for LabelNumeral
+"""
 LabelNumeral{T <: Integer}(t::T; prefix="", caselower=false) =
     LabelNumeral(t, prefix, caselower)
-
 LabelNumeral{T <: Integer}(t::Type{T}, i::Integer; prefix="", caselower=false) =
     LabelNumeral(t(i),prefix, caselower)
-
 LabelNumeral{T <: Integer}(t::Type{T}, str::String; prefix="", caselower=false) =
     LabelNumeral(parse(T, str), prefix, caselower)
 
+"""
+```
+    LabelNumeral(s::String; prefix="", caselower=false) --> LabelNumeral{Int}
+```
+Specialized constructor to return a LabelNumeral{Int} type.
+
+Example:
+```
+julia> a = LabelNumeral("23"; prefix="A-", caselower=true)
+A-23
+```
+The `prefix` does not get affected by the `caselower` parameter.
+"""
 LabelNumeral(str::String; prefix="", caselower=false) =
     LabelNumeral(parse(Int, str), prefix, caselower)
 

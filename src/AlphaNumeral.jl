@@ -1,8 +1,21 @@
+"""
+```
+    AlphaNumeral
+```
+Numbers represented as alphabets. ex. A, B, C,... from 27 onwards AA, BB, CC etc.
+"""
 struct AlphaNumeral <: Integer
     val::Int
     str::String
 end
 
+"""
+```
+    AlphaNumeral(str::String)
+    AlphaNumeral(n::Int)
+```
+Constructors for `AlphaNumeral`.
+"""
 AlphaNumeral(str::String) = parse(AlphaNumeral, str)
 AlphaNumeral(n::Int) = convert(AlphaNumeral, n)
 
@@ -11,6 +24,18 @@ Base.hash(num::AlphaNumeral) = xor(hash(num.str), hash(num.val))
 Base.typemax(::Type{AlphaNumeral}) = 156 # ZZZZZZ
 Base.typemin(::Type{AlphaNumeral}) = 1
 
+"""
+```
+    @an_str(str)
+```
+String decorator for `AlphaNumeral` definitions.
+
+#Example
+```
+julia> an"AA"
+LabelNumerals.AlphaNumeral(27, "AA")
+```
+"""
 macro an_str(str)
     AlphaNumeral(str)
 end
