@@ -1,3 +1,4 @@
+using Compat
 # Regex to validate a Roman numeral
 using RomanNumerals
 

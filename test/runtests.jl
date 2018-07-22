@@ -1,5 +1,6 @@
+using Compat
+using Compat.Test
 using LabelNumerals
-using Base.Test
 using RomanNumerals
 
 
