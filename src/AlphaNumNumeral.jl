@@ -43,18 +43,16 @@ macro ann_str(str)
     AlphaNumNumeral(str)
 end
 
-Base.convert{T <: Integer}(::Type{T}, num::AlphaNumNumeral) = convert(T, num.val)
+Base.convert(::Type{T}, num::AlphaNumNumeral) where T <: Integer =
+    convert(T, num.val)
 
 function Base.parse(::Type{AlphaNumNumeral}, str::String)
     s = uppercase(str)
     val = 0
     for a in s
         val *= 26
-        if 'A' <= a <= 'Z'
-            val += (a - 'A')
-        else
-            throw(DomainError())
-        end
+        val += 'A' <= a <= 'Z' ? (a - 'A') :
+            throw(DomainError(-3, "Invalid characters"))
     end
     return AlphaNumNumeral(val, str)
 end
@@ -65,7 +63,7 @@ function Base.convert(::Type{AlphaNumNumeral}, val::Int)
     while (tval > 0)
         r = rem(tval, 26)
         c = Char('A' + r)
-        unshift!(carr, c)
+        pushfirst!(carr, c)
         tval = div(tval, 26)
     end
     str = String(carr)

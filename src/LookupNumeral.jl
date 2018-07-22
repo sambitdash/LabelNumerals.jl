@@ -68,7 +68,6 @@ LOOKUP_TYPEMIN = 1
 `LookupNumeral` can be set up by providing a mapping as a `Dict{String, Int}`.
 The `minval` and `maxval` provide the limits of the domains in this number system.
 """
-
 function registerLookupNumerals(d::Dict{String,Int}, minval, maxval)
     global LOOKUP_A2N, LOOKUP_N2A, LOOKUP_TYPEMAX, LOOKUP_TYPEMIN
     LOOKUP_A2N = d
@@ -97,20 +96,15 @@ macro ln_str(str)
     LookupNumeral(str)
 end
 
-Base.convert{T <: Integer}(::Type{T}, num::LookupNumeral) = convert(T, num.val)
+Base.convert(::Type{T}, num::LookupNumeral) where T <: Integer =
+    convert(T, num.val)
 
 function Base.parse(::Type{LookupNumeral}, str::String)
-    if !haskey(LOOKUP_A2N, str)
-        throw(DomainError())
-    else
-        return LookupNumeral(LOOKUP_A2N[str], str)
-    end
+    haskey(LOOKUP_A2N, str) && return LookupNumeral(LOOKUP_A2N[str], str)
+    throw(DomainError(-1, "Value out of range"))
 end
 
 function Base.convert(::Type{LookupNumeral}, val::Int)
-    if !haskey(LOOKUP_N2A, val)
-        throw(DomainError())
-    else
-        return LookupNumeral(val, LOOKUP_N2A[val])
-    end
+    haskey(LOOKUP_N2A, val) && return LookupNumeral(val, LOOKUP_N2A[val])
+    throw(DomainError(-1, "Value out of range"))
 end

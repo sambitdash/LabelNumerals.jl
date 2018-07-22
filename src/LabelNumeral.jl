@@ -1,4 +1,5 @@
 using Compat
+
 # Base 26 number where alphabets are numbers.
 
 """
@@ -44,12 +45,13 @@ A-XXIV
 ```
 Constructors for LabelNumeral
 """
-LabelNumeral{T <: Integer}(t::T; prefix="", caselower=false) =
+LabelNumeral(t::T; prefix="", caselower=false) where T <: Integer =
     LabelNumeral(t, prefix, caselower)
-LabelNumeral{T <: Integer}(t::Type{T}, i::Integer; prefix="", caselower=false) =
-    LabelNumeral(t(i),prefix, caselower)
-LabelNumeral{T <: Integer}(t::Type{T}, str::String; prefix="", caselower=false) =
+LabelNumeral(t::Type{T}, i::Integer; prefix="", caselower=false) where T <: Integer =
+    LabelNumeral(t(i), prefix, caselower)
+LabelNumeral(t::Type{T}, str::String; prefix="", caselower=false) where T <: Integer =
     LabelNumeral(parse(T, str), prefix, caselower)
+LabelNumeral{T}(i::S) where {T <: Integer, S <: Integer} = LabelNumeral(T, Int(i))
 
 """
 ```
@@ -71,9 +73,10 @@ LabelNumeral(str::String; prefix="", caselower=false) =
 # Conversion + promotion
 Base.convert(::Type{Bool}, num::LabelNumeral) = true
 Base.convert(::Type{BigInt}, num::LabelNumeral) = BigInt(Int(num))
-Base.convert{T <: Integer}(::Type{T}, num::LabelNumeral) = convert(T, num.val)
-Base.convert{T <: Integer}(::Type{LabelNumeral{T}}, num::Int) = LabelNumeral(T, num)
-Base.promote_rule{T <: Integer, S <: Integer}(::Type{LabelNumeral{S}}, ::Type{T}) = T
+Base.convert(::Type{T}, num::LabelNumeral) where T <: Integer = convert(T, num.val)
+Base.convert(::Type{LabelNumeral{T}}, num::Int) where T <: Integer = LabelNumeral(T, num)
+Base.promote_rule(::Type{LabelNumeral{S}}, ::Type{T}) where {T <: Integer, S <: Integer} = T
+Base.Int(num::LabelNumeral) = convert(Int, num.val)
 
 Base.string(num::LabelNumeral) = begin
     sval = num.val.str
@@ -104,7 +107,7 @@ isless(n1::LabelNumeral, n2::LabelNumeral) = Int(n1) < Int(n2)
 ## Arithmetic
 # Multiple argument operators
 for op in [:+, :-,:max, :min]
-    @eval ($op){T <: Integer}(n1::LabelNumeral{T}, n2::LabelNumeral{T},
-        ns::LabelNumeral{T}...) =
+    @eval ($op)(n1::LabelNumeral{T}, n2::LabelNumeral{T},
+        ns::LabelNumeral{T}...) where {T <: Integer} =
         $(op)(Int(n1), Int(n2), map(Int, ns)...) |> LabelNumeral{T}
 end
