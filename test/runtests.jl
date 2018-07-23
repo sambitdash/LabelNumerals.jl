@@ -12,8 +12,8 @@ using RomanNumerals
     @test LabelNumeral(RomanNumeral,1) == LabelNumeral(rn"I")
     @test LabelNumeral(rn"xx") == LabelNumeral(rn"XX")
 
-    @test_throws InvalidRomanError RomanNumeral("nope")
-    @test_throws InvalidRomanError RomanNumeral("XLX")
+    @test_throws Meta.ParseError LabelNumeral(RomanNumeral, "nope")
+    @test_throws Meta.ParseError LabelNumeral(RomanNumeral, "XLX")
 
     # arithmetic tests
     @test LabelNumeral(rn"I") + LabelNumeral(rn"IX") == LabelNumeral(rn"X")
