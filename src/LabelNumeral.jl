@@ -1,5 +1,3 @@
-using Compat
-
 # Base 26 number where alphabets are numbers.
 
 """

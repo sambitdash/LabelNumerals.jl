@@ -15,8 +15,6 @@ export LabelNumeral, findLabels,
        @ln_str, LookupNumeral, registerLookupNumerals,
        @ann_str, AlphaNumNumeral
 
-using Compat
-
 allNumerals = [AlphaNumeral, RomanNumeral, Int, LookupNumeral, AlphaNumNumeral]
 
 """

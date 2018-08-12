@@ -1,4 +1,3 @@
-using Compat
 """
 ```
     AlphaNumeral
