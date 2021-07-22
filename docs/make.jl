@@ -3,7 +3,8 @@ push!(LOAD_PATH,"../src/")
 using Documenter, LabelNumerals
 
 makedocs(
-    format = :html,
+    format = Documenter.HTML(),
+    modules = [LabelNumerals],
     sitename = "LabelNumerals",
     pages = [
         "index.md"

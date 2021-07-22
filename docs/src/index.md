@@ -1,14 +1,19 @@
 # Numbers as Labels
 
-Numeric quantities are used sometimes for pure representational purposes without any true a
- numeric significance. For example, the page numbering is carried out using simple arabic
- numerals, roman numerals, alphabets. These numbers have additive properties but may not
- have any multiplicative significance. Such numbers can also have prefix notations as well.
- In some cases, the representation can be in upper case or lower case as well. This package
- implements such a numerals. Such numeric schemes are used as page numbers in PDF file
- specification. However, the need may be felt else where as well, which prompted the author
- to implement it as an independent package. The interface has been also influenced
- significantly by the [RomanNumerals](https://github.com/anthonyclays/RomanNumerals.jl) package.
+[![GitHub Action](https://github.com/sambitdash/LabelNumerals.jl/actions/workflows/Build.yml/badge.svg)](https://github.com/sambitdash/LabelNumerals.jl/actions/workflows/Build.yml)
+[![Coverage Status](https://coveralls.io/repos/sambitdash/LabelNumerals.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/sambitdash/LabelNumerals.jl?branch=master)
+[![codecov.io](http://codecov.io/github/sambitdash/LabelNumerals.jl/coverage.svg?branch=master)](http://codecov.io/github/sambitdash/LabelNumerals.jl?branch=master)
+
+[Dev Documentation](https://sambitdash.github.io/LabelNumerals.jl/docs/build/)
+
+
+Sometimes, we use numeric quantities for pure representational purposes without any 
+true numeric significance. For example, the page numbering is carried out using 
+simple Arabic numerals, roman numerals, alphabets. These numbers have additive 
+properties but may not have any multiplicative significance. Such numbers can have 
+prefix notations as well. In some cases, the representation can be in upper case 
+or lower case as well. This package implements such numerals. The interface has a 
+similar interface as the RomanNumerals package.
 
  ## Usage
  LabelNumerals introduces the following new types:
