@@ -2,10 +2,14 @@ name = "LabelNumerals"
 uuid = "2e475f56-4567-5c41-94ff-3f69a29378f9"
 authors = ["Sambit Kumar Dash<sambitdash@gmail.com> "]
 repo = "https://github.com/sambitdash/LabelNumerals.jl.git"
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 RomanNumerals = "37834d88-8936-577c-80c9-1066ecf66832"
+
+[compat]
+RomanNumerals = "0.3"
+julia = "1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
